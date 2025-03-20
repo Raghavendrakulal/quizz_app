@@ -9,11 +9,12 @@ import { Route, Routes } from "react-router-dom";
 import { Admin } from "./Components/Admin/Admin.jsx";
 import  QuizForm from "./Components/Admin/QuizForm.jsx";
 import { CategorySelectionPage } from "./Pages/CategorySelectionPage.jsx";
-import {CategoryPage} from "./Pages/CategoryPage.jsx"
+import {CategoryPage} from "./Pages/CategoryPage.jsx";
+import {Quizes} from "./Pages/Quizes.jsx";
 
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
-import { Quizes } from "./Components/QuizNew/Quizes.jsx";
+//import { Quizes } from "./Components/QuizNew/Quizes.jsx";
 import { Navbarnew } from "./Components/Navbar/Navbarnew.jsx";
 import { Resultshow } from "./Pages/Resultshow.jsx";
 import { ShowAllAnswers } from "./Pages/ShowAllAnswers.jsx";
@@ -30,7 +31,7 @@ function App() {
         <Route path="/CSS" element={<NewQuizPage />} />
         <Route path="/Javascript" element={<NewQuizPage />} />
         <Route path="/React" element={<NewQuizPage />} />
-        <Route path="/quiz/:id" element={<Quizes />} />
+        {/*<Route path="/quiz/:id" element={<Quizes />} /> */}
         <Route path="/Mongodb" element={<NewQuizPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/addquiz" element={<QuizForm />} />
@@ -39,6 +40,8 @@ function App() {
         <Route path="/showallanswer" element={<ShowAllAnswers />} />
         <Route path="/categories" element={<CategorySelectionPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/quiz/:id" element={<Quizes />} />
+
       </Routes>
       <Footer />
     </div>
