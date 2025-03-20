@@ -27,4 +27,18 @@ router.get("/categories", async (req, res) => {
   }
 });
 
+// Get quizzes by category
+router.get("/category/:category", async (req, res) => {
+    try {
+      const { category } = req.params;
+      const quizzes = await Quiz.find({ category });
+      if (quizzes.length === 0) {
+        return res.status(404).json({ message: "No quizzes found for this category." });
+      }
+      res.status(200).json(quizzes);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching quizzes", error });
+    }
+  });
+
 module.exports = router;
