@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +12,7 @@ export const Quizes = () => {
     const fetchQuiz = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/quiz/${id}`);
+        console.log("Fetched Quiz:", response.data); // Debugging
         setQuiz(response.data);
       } catch (error) {
         setError(error.response?.data?.message || "Error fetching quiz data");
@@ -29,16 +31,16 @@ export const Quizes = () => {
       <p className="text-gray-600 mb-4">Difficulty: {quiz.difficulty}</p>
       <h2 className="text-xl font-bold mb-4">Questions:</h2>
 
-      {quiz.qns && quiz.qns.length > 0 ? (
-        quiz.qns.map((question, index) => (
+      {quiz.questions && quiz.questions.length > 0 ? (
+        quiz.questions.map((question, index) => (
           <div key={index} className="mb-8 p-4 bg-white shadow-lg rounded-lg">
-            <h3 className="text-lg font-semibold">{index + 1}. {question.questionText}</h3>
+            <h3 className="text-lg font-semibold">{index + 1}. {question.title}</h3>
             <ul className="mt-4">
               {question.options.map((option, i) => (
                 <li key={i} className="text-gray-700">
                   <label>
-                    <input type="radio" name={`question-${index}`} value={option} className="mr-2" />
-                    {option}
+                    <input type="radio" name={`question-${index}`} value={option.text} className="mr-2" />
+                    {option.text}
                   </label>
                 </li>
               ))}
