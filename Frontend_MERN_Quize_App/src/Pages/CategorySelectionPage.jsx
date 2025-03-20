@@ -18,9 +18,13 @@ export const CategorySelectionPage = () => {
     fetchCategories();
   }, []);
 
+  // const handleCategorySelect = (category) => {
+  //   navigate(`/quizzes/${category}`);
+  // };
   const handleCategorySelect = (category) => {
-    navigate(`/quizzes/${category}`);
+    navigate(`/category/${category}`);
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col">

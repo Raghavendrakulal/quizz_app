@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import { Admin } from "./Components/Admin/Admin.jsx";
 import  QuizForm from "./Components/Admin/QuizForm.jsx";
 import { CategorySelectionPage } from "./Pages/CategorySelectionPage.jsx";
+import {CategoryPage} from "./Pages/CategoryPage.jsx"
 
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
@@ -37,6 +38,7 @@ function App() {
         <Route path="/result" element={<Resultshow />} />
         <Route path="/showallanswer" element={<ShowAllAnswers />} />
         <Route path="/categories" element={<CategorySelectionPage />} />
+        <Route path="/category/:category" element={<CategoryPage />} />
       </Routes>
       <Footer />
     </div>
