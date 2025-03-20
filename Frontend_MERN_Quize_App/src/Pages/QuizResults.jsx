@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const QuizResults = () => {
   const location = useLocation();
-  const { quiz, answers } = location.state;
+  const { quiz, answers, user } = location.state;
 
   // Calculate the score
   const score = quiz.questions.reduce((acc, question, index) => {
@@ -13,6 +14,25 @@ const QuizResults = () => {
     }
     return acc;
   }, 0);
+
+  useEffect(() => {
+    // Save the results to the database
+    const saveResults = async () => {
+      try {
+        console.log("Sending data to server:", { user: user.name, category: quiz.category, score: score });
+        await axios.post("http://localhost:4000/quiz/save-results", {
+          user: user.name,
+          category: quiz.category,
+          score: score,
+        });
+        console.log("Results saved successfully");
+      } catch (error) {
+        console.error("Error saving results:", error);
+      }
+    };
+
+    saveResults();
+  }, [quiz.category, score, user.name]);
 
   return (
     <div className="flex flex-col min-h-screen">

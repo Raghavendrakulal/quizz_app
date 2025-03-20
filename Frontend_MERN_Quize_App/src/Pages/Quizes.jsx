@@ -1,12 +1,15 @@
-
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Quizes = () => {
   const { id } = useParams(); // Capture quiz ID from URL
+  const navigate = useNavigate(); // Use navigate for navigation
   const [quiz, setQuiz] = useState(null);
   const [error, setError] = useState("");
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [user, setUser] = useState({ name: "John Doe" }); // Example user data
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -21,6 +24,22 @@ export const Quizes = () => {
 
     fetchQuiz();
   }, [id]);
+
+  const handleOptionChange = (questionIndex, optionText) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionIndex]: optionText,
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (Object.keys(answers).length !== quiz.questions.length) {
+      alert("Please answer all the questions before submitting.");
+      return;
+    }
+    setSubmitted(true);
+    navigate("/quiz-results", { state: { quiz, answers, user } });
+  };
 
   if (error) return <p className="text-red-500">{error}</p>;
   if (!quiz) return <p>Loading quiz data...</p>;
@@ -39,7 +58,14 @@ export const Quizes = () => {
               {question.options.map((option, i) => (
                 <li key={i} className="text-gray-700">
                   <label>
-                    <input type="radio" name={`question-${index}`} value={option.text} className="mr-2" />
+                    <input
+                      type="radio"
+                      name={`question-${index}`}
+                      value={option.text}
+                      checked={answers[index] === option.text}
+                      onChange={() => handleOptionChange(index, option.text)}
+                      className="mr-2"
+                    />
                     {option.text}
                   </label>
                 </li>
@@ -49,6 +75,15 @@ export const Quizes = () => {
         ))
       ) : (
         <p>No questions available for this quiz.</p>
+      )}
+
+      {!submitted && (
+        <button
+          onClick={handleSubmit}
+          className="mt-6 bg-teal-500 text-white px-4 py-2 rounded"
+        >
+          Submit Quiz
+        </button>
       )}
     </div>
   );
