@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 import "./App.css";
 import { TopicQuiz } from "./Components/TopicQuiz.jsx";
 import { Footer } from "./Components/Footer/Footer.jsx";
@@ -8,6 +8,7 @@ import { Register } from "./Components/auth/Register.jsx";
 import { Route, Routes } from "react-router-dom";
 import { Admin } from "./Components/Admin/Admin.jsx";
 import  QuizForm from "./Components/Admin/QuizForm.jsx";
+import { CategorySelectionPage } from "./Pages/CategorySelectionPage.jsx";
 
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
@@ -35,6 +36,7 @@ function App() {
         <Route path="/profile" element={<ProfileMain />} />
         <Route path="/result" element={<Resultshow />} />
         <Route path="/showallanswer" element={<ShowAllAnswers />} />
+        <Route path="/categories" element={<CategorySelectionPage />} />
       </Routes>
       <Footer />
     </div>

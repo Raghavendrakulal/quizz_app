@@ -13,7 +13,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Login = () => {
-  const userId = useSelector((state) => state.mernQuize.userId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -31,81 +30,61 @@ export const Login = () => {
 
   const login = () => {
     axios
-    .post("http://localhost:4000/login", user)
+      .post("http://localhost:4000/login", user)
       .then((res) => {
-        if (res.data.user.email == "kulalraghavendra21@gmail.com") {
+        if (res.data.user.email === "kulalraghavendra21@gmail.com") {
           dispatch(loginAdminId(res.data.user._id));
           dispatch(loginAdminName(res.data.user.name));
-          toast(`Welcome Admin ${res.data.user.name}`, {
-            type: "success",
-          });
-
-          setTimeout(() => {
-            navigate("/profile");
-          }, 4000);
+          toast(`Welcome Admin ${res.data.user.name}`, { type: "success" });
+          setTimeout(() => navigate("/profile"), 4000);
         } else {
           dispatch(loginUser(res.data.user._id));
           dispatch(loginUserName(res.data.user.name));
-          toast(`Successfully Login `, {
-            type: "success",
-          });
-          setTimeout(() => {
-            navigate("/profile");
-          }, 3000);
+          toast("Successfully Login", { type: "success" });
+          setTimeout(() => navigate("/profile"), 3000);
         }
-
-        //         if(res.data.message=="login successfully"){
-        // alert("Login successfully")
-        //         }
-        // navigate('/')
       })
-      .catch((err) => {
-        toast("Invalid Credientials", {
-          type: "error",
-        });
+      .catch(() => {
+        toast("Invalid Credentials", { type: "error" });
       });
   };
 
   return (
-    <div className=" flex w-4/5 justify-around m-auto mt-16 mb-16">
-      <div className="login mb-28 w-1/2 ml-48 ">
-        <h1 className="text-2xl font-semibold">Login</h1>
+    <div className="flex flex-col md:flex-row w-full justify-around items-center m-auto mt-16 mb-16 px-4">
+      <div className="login mb-10 md:mb-28 w-full md:w-1/2 max-w-md">
+        <h1 className="text-2xl font-semibold mb-4">Login</h1>
         <input
           type="text"
           name="email"
           value={user.email}
           onChange={handleChange}
           placeholder="Enter your Email"
-        ></input>
+          className="w-full p-2 mb-4 border rounded"
+        />
         <input
           type="password"
           name="password"
           value={user.password}
           onChange={handleChange}
           placeholder="Enter your Password"
-        ></input>
-        <div>
-          {" "}
-          <button
-            onClick={() => {
-              login();
-            }}
-            className="p-2 pl-28 pr-28 bg-blue-500 h-10 rounded-md text-white  text-xl "
-          >
-            Login
-          </button>
-          <ToastContainer />
-        </div>
-        <div>OR</div>
+          className="w-full p-2 mb-4 border rounded"
+        />
+        <button
+          onClick={login}
+          className="w-full p-2 bg-blue-500 text-white rounded-md text-xl mb-4"
+        >
+          Login
+        </button>
+        <ToastContainer />
+        <div className="text-center mb-4">OR</div>
         <Link to="/register">
-          {" "}
-          <button className="p-2 pl-28 pr-24 bg-blue-500 h-10 rounded-md text-white  text-xl ">
+          <button className="w-full p-2 bg-green-500 text-white rounded-md text-xl">
             Register
-          </button>{" "}
+          </button>
         </Link>
       </div>
-      <div className="w-1/2 ml-24">
-        <img className="h-96 w-96" src="./login.gif" alt="logingif" />
+      <div className="w-full md:w-1/2 flex justify-center">
+        <img className="h-64 md:h-96 w-64 md:w-96" src="./login.gif" alt="login gif" />
       </div>
     </div>
   );

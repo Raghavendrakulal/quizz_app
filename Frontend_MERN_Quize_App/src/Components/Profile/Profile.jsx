@@ -26,7 +26,7 @@ export const Profile = () => {
 
       {/* Attempt Quiz Button */}
       <div className="mt-6">
-        <Link to="/">
+        <Link to="/categories">
           <button className="bg-teal-500 text-white text-lg font-bold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600 transition">
             Attempt Quiz
           </button>

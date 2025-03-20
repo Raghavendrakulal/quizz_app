@@ -13,28 +13,21 @@ export const Register = () => {
     reEnterPassword: "",
   });
   const navigate = useNavigate();
+
   const register = () => {
     const { name, email, password, reEnterPassword } = user;
     if (name && email && password && password === reEnterPassword) {
       axios
-      .post("http://localhost:4000/register", user)
-        .then((res) => {
-          toast("Successfully Registered", {
-            type: "success",
-          });
-          setTimeout(() => {
-            navigate("/login");
-          }, 3000);
+        .post("http://localhost:4000/register", user)
+        .then(() => {
+          toast("Successfully Registered", { type: "success" });
+          setTimeout(() => navigate("/login"), 3000);
         })
-        .catch((err) => {
-          toast("Invalid Input", {
-            type: "error",
-          });
+        .catch(() => {
+          toast("Invalid Input", { type: "error" });
         });
     } else {
-      toast("Invalid Input", {
-        type: "error",
-      });
+      toast("Invalid Input", { type: "error" });
     }
   };
 
@@ -47,55 +40,58 @@ export const Register = () => {
   };
 
   return (
-    <div className="flex w-4/5 registermain justify-around m-auto mt-10">
-      <div className="register w-1/2 h-96 ml-24">
-        <p className="text-2xl font-semibold">Register</p>
+    <div className="flex flex-col md:flex-row w-full justify-around items-center m-auto mt-10 px-4">
+      <div className="register w-full md:w-1/2 max-w-md">
+        <p className="text-2xl font-semibold mb-4">Register</p>
         <input
           type="text"
           name="name"
           value={user.name}
           placeholder="Your Name"
           onChange={handleChange}
-        ></input>
+          className="w-full p-2 mb-4 border rounded"
+        />
         <input
           type="text"
           name="email"
           value={user.email}
           placeholder="Your Email"
           onChange={handleChange}
-        ></input>
+          className="w-full p-2 mb-4 border rounded"
+        />
         <input
           type="password"
           name="password"
           value={user.password}
           placeholder="Your Password"
           onChange={handleChange}
-        ></input>
+          className="w-full p-2 mb-4 border rounded"
+        />
         <input
           type="password"
           name="reEnterPassword"
           value={user.reEnterPassword}
           placeholder="Re-enter Password"
           onChange={handleChange}
-        ></input>
+          className="w-full p-2 mb-4 border rounded"
+        />
         <button
-          className="p-2 pl-24 pr-24 clicabledivRegsiter bg-blue-500 h-10 rounded-md text-white  text-xl "
+          className="w-full p-2 bg-blue-500 text-white rounded-md text-xl mb-4"
           onClick={register}
         >
           Register
         </button>
         <ToastContainer />
-        <div>OR</div>
+        <div className="text-center mb-4">OR</div>
         <Link to="/login">
-          {" "}
-          <div className="p-2 pl-36 pr-28 clicablediv bg-blue-500 h-10 rounded-md text-white  text-xl ">
+          <button className="w-full p-2 bg-green-500 text-white rounded-md text-xl">
             Login
-          </div>{" "}
+          </button>
         </Link>
       </div>
-      <button className="mb-8 w-1/2 ml-48 ">
-        <img src="./register.gif" alt="registergif" />
-      </button>
+      <div className="w-full md:w-1/2 flex justify-center mt-10 md:mt-0">
+        <img className="h-64 md:h-96 w-64 md:w-96" src="./register.gif" alt="register gif" />
+      </div>
     </div>
   );
 };
