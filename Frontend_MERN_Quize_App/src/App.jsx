@@ -1,6 +1,6 @@
 //import logo from "./logo.svg";
 import "./App.css";
-import { TopicQuiz } from "./Components/TopicQuiz.jsx";
+import { Homepage } from "./Components/Homepage.jsx";
 import { Footer } from "./Components/Footer/Footer.jsx";
 import { NewQuizPage } from "./Pages/NewQuizPage.jsx";
 import { Login } from "./Components/auth/Login.jsx";
@@ -26,7 +26,7 @@ function App() {
     <div className="App ">
       <Navbarnew />
       <Routes>
-        <Route path="/" element={<TopicQuiz />} />
+        <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/HTML" element={<NewQuizPage />} />
