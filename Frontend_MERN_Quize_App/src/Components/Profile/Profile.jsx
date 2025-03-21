@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,6 @@ export const Profile = () => {
 
   return (
     <div className="w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-lg p-6 text-center">
-      
       {/* Motivational Quote */}
       <h1 className="text-teal-500 text-2xl font-extrabold italic mt-6 md:text-3xl">
         Sweat more in practice, bleed less in war.

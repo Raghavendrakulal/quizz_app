@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 export const Quizes = () => {
   const { id } = useParams(); // Capture quiz ID from URL
   const navigate = useNavigate(); // Use navigate for navigation
-  const userId = useSelector((state) => state.userId); // Get user ID from Redux store
-  const userName = useSelector((state) => state.userName); // Get user name from Redux store
+  const userId = useSelector((state) => state.mernQuize.userId); // Get user ID from Redux store
+  const userName = useSelector((state) => state.mernQuize.userName); // Get user name from Redux store
   const [quiz, setQuiz] = useState(null);
   const [error, setError] = useState("");
   const [answers, setAnswers] = useState({});
