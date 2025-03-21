@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const Quizes = () => {
   const { id } = useParams(); // Capture quiz ID from URL
   const navigate = useNavigate(); // Use navigate for navigation
+  const userId = useSelector((state) => state.userId); // Get user ID from Redux store
+  const userName = useSelector((state) => state.userName); // Get user name from Redux store
   const [quiz, setQuiz] = useState(null);
   const [error, setError] = useState("");
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [user, setUser] = useState({ name: "John Doe" }); // Example user data
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -33,12 +35,15 @@ export const Quizes = () => {
   };
 
   const handleSubmit = () => {
+    console.log("User ID:", userId); // Debugging
+    console.log("User Name:", userName); // Debugging
+
     if (Object.keys(answers).length !== quiz.questions.length) {
       alert("Please answer all the questions before submitting.");
       return;
     }
     setSubmitted(true);
-    navigate("/quiz-results", { state: { quiz, answers, user } });
+    navigate("/quiz-results", { state: { quiz, answers, user: { id: userId, name: userName } } });
   };
 
   if (error) return <p className="text-red-500">{error}</p>;

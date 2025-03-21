@@ -91,7 +91,6 @@ export const QuizReducer = (state = init, action) => {
         userId: null,
         userName: null,
       };
-    //username
     case types.GETADMINNAME:
       return {
         ...state,

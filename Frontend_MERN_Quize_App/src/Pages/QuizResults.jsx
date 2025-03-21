@@ -21,9 +21,10 @@ const QuizResults = () => {
     // Save the results to the database
     const saveResults = async () => {
       try {
-        console.log("Sending data to server:", { user: user.name, category: quiz.category, score: score });
+        const userName = user?.name || "Default User"; // Provide a default user name if undefined
+        console.log("Sending data to server:", { user: userName, category: quiz.category, score: score });
         await axios.post("http://localhost:4000/quiz/save-results", {
-          user: user.name,
+          user: userName,
           category: quiz.category,
           score: score,
         });
@@ -38,7 +39,7 @@ const QuizResults = () => {
       saveResultsCalled.current = true; // Set the ref to true to prevent multiple calls
       saveResults();
     }
-  }, [quiz.category, score, user.name, resultsSaved]);
+  }, [quiz.category, score, user, resultsSaved]);
 
   return (
     <div className="flex flex-col min-h-screen">
