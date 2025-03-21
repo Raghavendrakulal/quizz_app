@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const QuizResults = () => {
   const location = useLocation();
   const { quiz, answers, user } = location.state;
+  const [resultsSaved, setResultsSaved] = useState(false); // Flag to track if results are saved
+  const saveResultsCalled = useRef(false); // Ref to track if saveResults has been called
 
   // Calculate the score
   const score = quiz.questions.reduce((acc, question, index) => {
@@ -26,13 +28,17 @@ const QuizResults = () => {
           score: score,
         });
         console.log("Results saved successfully");
+        setResultsSaved(true); // Set the flag to true after saving results
       } catch (error) {
         console.error("Error saving results:", error);
       }
     };
 
-    saveResults();
-  }, [quiz.category, score, user.name]);
+    if (!resultsSaved && !saveResultsCalled.current) {
+      saveResultsCalled.current = true; // Set the ref to true to prevent multiple calls
+      saveResults();
+    }
+  }, [quiz.category, score, user.name, resultsSaved]);
 
   return (
     <div className="flex flex-col min-h-screen">
