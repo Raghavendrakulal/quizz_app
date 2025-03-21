@@ -12,6 +12,7 @@ import { CategorySelectionPage } from "./Pages/CategorySelectionPage.jsx";
 import {CategoryPage} from "./Pages/CategoryPage.jsx";
 import {Quizes} from "./Pages/Quizes.jsx";
 import QuizResults from "./Pages/QuizResults.jsx";
+import Leaderboard from "./Pages/Leaderboard.jsx";
 
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
@@ -43,7 +44,7 @@ function App() {
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/quiz/:id" element={<Quizes />} />
         <Route path="/quiz-results" element={<QuizResults />} />
-
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
       <Footer />
     </div>

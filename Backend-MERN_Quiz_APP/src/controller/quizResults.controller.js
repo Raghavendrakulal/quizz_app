@@ -9,7 +9,24 @@ router.get("/categories", async (req, res) => {
     const categories = await Quiz.distinct("category");
     res.json(categories);
   } catch (error) {
+    console.error("Error fetching categories:", error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Get leaderboard data
+router.get("/leaderboard", async (req, res) => {
+  try {
+    const { category } = req.query;
+    console.log("Fetching leaderboard data for category:", category); // Debugging
+    const filter = category ? { category } : {};
+    const results = await Result.find(filter).sort({ score: -1 });
+    console.log("Fetched leaderboard data:", results); // Debugging
+    res.json(results);
+  } catch (error) {
+    console.error("Error fetching leaderboard data:", error); // Debugging
+    console.error("Error details:", error.message); // Detailed error logging
+    res.status(500).json({ message: "Error fetching leaderboard data", error });
   }
 });
 
@@ -23,6 +40,7 @@ router.get("/category/:category", async (req, res) => {
     }
     res.status(200).json(quizzes);
   } catch (error) {
+    console.error("Error fetching quizzes:", error);
     res.status(500).json({ message: "Error fetching quizzes", error });
   }
 });
@@ -36,6 +54,7 @@ router.get("/:id", async (req, res) => {
     }
     res.json(quiz);
   } catch (error) {
+    console.error("Error fetching quiz data:", error);
     res.status(500).json({ message: "Error fetching quiz data", error });
   }
 });
