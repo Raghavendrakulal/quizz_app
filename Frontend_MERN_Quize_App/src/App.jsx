@@ -39,7 +39,7 @@ function App() {
         <Route path="/addquiz" element={<QuizForm />} />
 
 
-        <Route path="/profile" element={<ProtectedRoute><ProfileMain /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProfileMain />} />
         
         <Route path="/result" element={<Resultshow />} />
         <Route path="/showallanswer" element={<ShowAllAnswers />} />
