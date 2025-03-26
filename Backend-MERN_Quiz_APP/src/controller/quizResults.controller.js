@@ -73,4 +73,26 @@ router.post("/save-results", async (req, res) => {
   }
 });
 
+
+
+// Update an existing quiz by ID
+router.put("/update-quiz/:id", async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    const updatedQuiz = req.body;
+
+    // Find the quiz by ID and update it
+    const quiz = await Quiz.findByIdAndUpdate(quizId, updatedQuiz, { new: true });
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    res.status(200).json({ message: "Quiz updated successfully", quiz });
+  } catch (error) {
+    console.error("Error updating quiz:", error);
+    res.status(500).json({ message: "Error updating quiz", error });
+  }
+});
+
 module.exports = router;

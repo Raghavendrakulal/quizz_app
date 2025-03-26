@@ -14,6 +14,7 @@ import {Quizes} from "./Pages/Quizes.jsx";
 import QuizResults from "./Pages/QuizResults.jsx";
 import Leaderboard from "./Pages/Leaderboard.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import { EditQuiz } from "./Components/Admin/EditQuiz.jsx";
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
 //import { Quizes } from "./Components/QuizNew/Quizes.jsx";
@@ -48,6 +49,7 @@ function App() {
         <Route path="/quiz/:id" element={<ProtectedRoute><Quizes /></ProtectedRoute>} />
         <Route path="/quiz-results" element={<ProtectedRoute><QuizResults /></ProtectedRoute>} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/edit-quiz" element={<EditQuiz/>} />
       </Routes>
       <Footer />
     </div>
