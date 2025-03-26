@@ -13,7 +13,7 @@ import {CategoryPage} from "./Pages/CategoryPage.jsx";
 import {Quizes} from "./Pages/Quizes.jsx";
 import QuizResults from "./Pages/QuizResults.jsx";
 import Leaderboard from "./Pages/Leaderboard.jsx";
-
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 import { ProfileMain } from "./Components/Profile/ProfileMain.jsx";
 //import { Quizes } from "./Components/QuizNew/Quizes.jsx";
@@ -37,13 +37,16 @@ function App() {
         <Route path="/Mongodb" element={<NewQuizPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/addquiz" element={<QuizForm />} />
-        <Route path="/profile" element={<ProfileMain />} />
+
+
+        <Route path="/profile" element={<ProtectedRoute><ProfileMain /></ProtectedRoute>} />
+        
         <Route path="/result" element={<Resultshow />} />
         <Route path="/showallanswer" element={<ShowAllAnswers />} />
-        <Route path="/categories" element={<CategorySelectionPage />} />
-        <Route path="/category/:category" element={<CategoryPage />} />
-        <Route path="/quiz/:id" element={<Quizes />} />
-        <Route path="/quiz-results" element={<QuizResults />} />
+        <Route path="/categories" element={<ProtectedRoute><CategorySelectionPage /></ProtectedRoute>} />
+        <Route path="/category/:category" element={<ProtectedRoute><CategoryPage /></ProtectedRoute>} />
+        <Route path="/quiz/:id" element={<ProtectedRoute><Quizes /></ProtectedRoute>} />
+        <Route path="/quiz-results" element={<ProtectedRoute><QuizResults /></ProtectedRoute>} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
       <Footer />
