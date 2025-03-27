@@ -1,9 +1,41 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+  import {jwtDecode} from "jwt-decode";
 
 export const Profile = () => {
-  const userName = useSelector((state) => state.mernQuize.userName);
+  const [userName, setUserName] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // If no token, redirect to login
+      navigate("/login");
+      return;
+    }
+
+    try {
+      // Decode the token to extract user information
+      const decodedToken = jwtDecode(token);
+
+      // Check if the token is expired
+      const currentTime = Date.now() / 1000; // Current time in seconds
+      if (decodedToken.exp < currentTime) {
+        // Token is expired
+        localStorage.removeItem("token");
+        navigate("/login");
+        return;
+      }
+
+      // Set the user's name from the token
+      setUserName(decodedToken.name);
+    } catch (error) {
+      console.error("Invalid token:", error);
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  }, [navigate]);
 
   return (
     <div className="w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-lg p-6 text-center">
@@ -19,7 +51,7 @@ export const Profile = () => {
       <div className="flex flex-col md:flex-row items-center justify-center mt-10">
         <img src="./profile.gif" alt="Profile" className="w-40 md:w-64 h-auto" />
         <h1 className="mt-6 md:mt-0 md:ml-8 text-2xl text-sky-600">
-          Welcome, {userName}! 👋
+          Welcome, {userName || "Guest"}! 👋
         </h1>
       </div>
 

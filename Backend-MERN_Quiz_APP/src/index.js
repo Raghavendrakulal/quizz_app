@@ -1,7 +1,9 @@
-const express = require('express');
+const express = require("express");
 const connect = require("./configs/db.js");
 const bodyParser = require("body-parser");
-const cors = require('cors');
+const cors = require("cors");
+const bcrypt = require("bcrypt");
+const User = require("./model/auth.model.js"); // Import the User model
 const app = express();
 const Port = process.env.PORT || 4000;
 
@@ -38,11 +40,40 @@ app.use("/userResult", userResult);
 const quizResults = require("./controller/quizResults.controller.js");
 app.use("/quiz", quizResults);
 
+// Function to create the initial admin
+const createInitialAdmin = async () => {
+  try {
+    // Check if an admin already exists
+    const existingAdmin = await User.findOne({ role: "admin" });
+    if (existingAdmin) {
+      console.log("✅ Admin already exists");
+      return;
+    }
+
+    // Hash the admin password
+    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+
+    // Create the admin user
+    const admin = new User({
+      name: process.env.ADMIN_NAME,
+      email: process.env.ADMIN_EMAIL,
+      password: hashedPassword,
+      role: "admin", // Assign the admin role
+    });
+
+    await admin.save();
+    console.log("✅ Initial admin created successfully");
+  } catch (error) {
+    console.error("❌ Error creating initial admin:", error.message);
+  }
+};
+
 // Start Server
 app.listen(Port, async function () {
   try {
     await connect();
     console.log(`🚀 Server is running on http://localhost:${Port}`);
+    await createInitialAdmin(); // Create the first admin
   } catch (error) {
     console.error("❌ Error connecting to the database:", error.message);
   }

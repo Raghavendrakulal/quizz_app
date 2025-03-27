@@ -5,7 +5,7 @@ import { getAllUserDataFromBackend } from "../../Redux/action.js";
 import { UserdetailForAdmin } from "./UserdetailForAdmin.jsx";
 
 export const Admin = () => {
-  const allUsers = useSelector((state) => state.mernQuize.Alluser);
+  const allUsers = useSelector((state) => state.mernQuize.Alluser); // Get user data from Redux state
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export const Admin = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllUserDataFromBackend());
+    dispatch(getAllUserDataFromBackend()); // Fetch user data when the component loads
   }, [dispatch]);
 
   return (

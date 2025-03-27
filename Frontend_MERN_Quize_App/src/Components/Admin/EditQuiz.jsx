@@ -7,6 +7,15 @@ export const EditQuiz = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [updatedQuiz, setUpdatedQuiz] = useState(null);
+  const [newQuestion, setNewQuestion] = useState({
+    title: "",
+    options: [
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+      { text: "", isCorrect: false },
+    ],
+  });
 
   // Fetch all categories
   useEffect(() => {
@@ -62,6 +71,41 @@ export const EditQuiz = () => {
       ...prev,
       questions: updatedQuestions,
     }));
+  };
+
+  // Handle new question input changes
+  const handleNewQuestionChange = (field, value) => {
+    setNewQuestion((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleNewOptionChange = (index, field, value) => {
+    const updatedOptions = [...newQuestion.options];
+    updatedOptions[index][field] = value;
+    setNewQuestion((prev) => ({
+      ...prev,
+      options: updatedOptions,
+    }));
+  };
+
+  // Add new question to the quiz
+  const addNewQuestion = () => {
+    setUpdatedQuiz((prev) => ({
+      ...prev,
+      questions: [...prev.questions, newQuestion],
+    }));
+    // Reset the new question form
+    setNewQuestion({
+      title: "",
+      options: [
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+        { text: "", isCorrect: false },
+      ],
+    });
   };
 
   // Save the updated quiz
@@ -180,9 +224,49 @@ export const EditQuiz = () => {
               </div>
             ))}
           </div>
+
+          {/* Add New Question */}
+          <div className="mb-6">
+            <h3 className="font-bold mb-2">Add New Question:</h3>
+            <label className="block mb-2">Question Title:</label>
+            <input
+              type="text"
+              value={newQuestion.title}
+              onChange={(e) => handleNewQuestionChange("title", e.target.value)}
+              className="p-2 border rounded w-full"
+            />
+            <label className="block mt-4 mb-2">Options:</label>
+            {newQuestion.options.map((option, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <input
+                  type="text"
+                  value={option.text}
+                  onChange={(e) =>
+                    handleNewOptionChange(index, "text", e.target.value)
+                  }
+                  className="p-2 border rounded w-full mr-2"
+                />
+                <input
+                  type="checkbox"
+                  checked={option.isCorrect}
+                  onChange={(e) =>
+                    handleNewOptionChange(index, "isCorrect", e.target.checked)
+                  }
+                />
+                <span className="ml-2">Correct</span>
+              </div>
+            ))}
+            <button
+              onClick={addNewQuestion}
+              className="bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
+            >
+              Add Question
+            </button>
+          </div>
+
           <button
             onClick={saveQuiz}
-            className="bg-green-500 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
           >
             Save Quiz
           </button>

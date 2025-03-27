@@ -1,17 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import {jwtDecode} from "jwt-decode"; // Import jwt-decode
 
 export const Quizes = () => {
   const { id } = useParams(); // Capture quiz ID from URL
   const navigate = useNavigate(); // Use navigate for navigation
-  const userId = useSelector((state) => state.mernQuize.userId); // Get user ID from Redux store
-  const userName = useSelector((state) => state.mernQuize.userName); // Get user name from Redux store
   const [quiz, setQuiz] = useState(null);
   const [error, setError] = useState("");
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
+
+  // Decode the token to get user details
+  const token = localStorage.getItem("token");
+  let userName = null;
+  let userId = null;
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      userName = decodedToken.name; // Extract username from the token
+      userId = decodedToken.id; // Extract user ID from the token
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+  }
 
   useEffect(() => {
     const fetchQuiz = async () => {
