@@ -28,7 +28,10 @@ const Leaderboard = () => {
           params: { category },
         });
         console.log("Fetched leaderboard data:", response.data); // Debugging
-        setResults(response.data);
+
+        // Sort results by percentage in descending order
+        const sortedResults = response.data.sort((a, b) => b.percentage - a.percentage);
+        setResults(sortedResults);
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
       }
@@ -61,16 +64,16 @@ const Leaderboard = () => {
             <th className="py-2 px-4 border-b">Rank</th>
             <th className="py-2 px-4 border-b">Name</th>
             <th className="py-2 px-4 border-b">Category</th>
-            <th className="py-2 px-4 border-b">Score</th>
+            <th className="py-2 px-4 border-b">Percentage</th>
           </tr>
         </thead>
         <tbody>
           {results.map((result, index) => (
             <tr key={result._id}>
               <td className="py-2 px-4 border-b">{index + 1}</td>
-              <td className="py-2 px-4 border-b">{result.user}</td>
+              <td className="py-2 px-4 border-b">{result.userName || "N/A"}</td> {/* Access userName */}
               <td className="py-2 px-4 border-b">{result.category}</td>
-              <td className="py-2 px-4 border-b">{result.score}</td>
+              <td className="py-2 px-4 border-b">{result.percentage}%</td>
             </tr>
           ))}
         </tbody>

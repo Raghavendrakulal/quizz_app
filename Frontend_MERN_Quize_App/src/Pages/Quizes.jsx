@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode"; // Import jwt-decode
+import {jwtDecode} from "jwt-decode"; // Correct import for jwt-decode
 
 export const Quizes = () => {
   const { id } = useParams(); // Capture quiz ID from URL
@@ -15,12 +15,14 @@ export const Quizes = () => {
   const token = localStorage.getItem("token");
   let userName = null;
   let userId = null;
+  let email = null;
 
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
       userName = decodedToken.name; // Extract username from the token
       userId = decodedToken.id; // Extract user ID from the token
+      email = decodedToken.email; // Extract email from the token
     } catch (error) {
       console.error("Invalid token:", error);
     }
@@ -50,13 +52,20 @@ export const Quizes = () => {
   const handleSubmit = () => {
     console.log("User ID:", userId); // Debugging
     console.log("User Name:", userName); // Debugging
+    console.log("User Email:", email); // Debugging
 
     if (Object.keys(answers).length !== quiz.questions.length) {
       alert("Please answer all the questions before submitting.");
       return;
     }
     setSubmitted(true);
-    navigate("/quiz-results", { state: { quiz, answers, user: { id: userId, name: userName } } });
+    navigate("/quiz-results", {
+      state: {
+        quiz,
+        answers,
+        user: { id: userId, name: userName, email }, // Pass email along with user details
+      },
+    });
   };
 
   if (error) return <p className="text-red-500">{error}</p>;
