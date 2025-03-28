@@ -46,7 +46,7 @@ export const Login = () => {
           dispatch(loginAdminId(user.id));
           dispatch(loginAdminName(user.name));
           toast(`Welcome Admin ${user.name}`, { type: "success" });
-          setTimeout(() => navigate("/admin"), 3000);
+          setTimeout(() => navigate("/admin"), 2000);
         } else {
           toast("Successfully Logged In", { type: "success" });
           setTimeout(() => navigate("/profile"), 3000);

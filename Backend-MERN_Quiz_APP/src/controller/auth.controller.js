@@ -183,6 +183,42 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Promote a user to admin
+router.patch("/:id/promote", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1]; // Extract token from Authorization header
+
+  if (!token) {
+    return res.status(401).json({ message: "Access denied. No token provided." });
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check if the user is an admin
+    if (decoded.role !== "admin") {
+      return res.status(403).json({ message: "Access denied. Admins only." });
+    }
+
+    // Promote the user to admin
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { role: "admin" }, // Update the role to "admin"
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User promoted to admin", user: updatedUser });
+  } catch (error) {
+    console.error("Error promoting user:", error.message);
+    res.status(500).json({ message: "Error promoting user", error });
+  }
+});
+
+
 
 
 module.exports = router

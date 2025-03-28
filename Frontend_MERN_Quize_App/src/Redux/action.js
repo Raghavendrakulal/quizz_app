@@ -1,7 +1,9 @@
 import axios from "axios";
 import * as types from "./actiontype.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// Action to fetch all user data
+// Fetch all users
 export const getAllUserDataFromBackend = () => async (dispatch) => {
   const token = localStorage.getItem("token");
 
@@ -16,13 +18,35 @@ export const getAllUserDataFromBackend = () => async (dispatch) => {
 
     dispatch({
       type: types.GET_ALL_USER_DATA_SUCCESS,
-      payload: response.data, // Pass the fetched user data
+      payload: response.data,
     });
   } catch (error) {
     dispatch({
       type: types.GET_ALL_USER_DATA_FAILURE,
       payload: error.response?.data?.message || "Error fetching user data",
     });
+  }
+};
+//pormote
+export const promoteUserToAdmin = (userId) => async (dispatch) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await axios.patch(
+      `http://localhost:4000/user/${userId}/promote`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch(getAllUserDataFromBackend());
+    toast.success("User promoted to Admin successfully");
+  } catch (error) {
+    console.error("Error promoting user:", error.response?.data?.message || error.message);
+    toast.error("Unable to promote the User");
   }
 };
 
@@ -37,12 +61,12 @@ export const deleteUserByAdmin = (userId) => async (dispatch) => {
       },
     });
 
-    // Optionally, fetch updated user data after deletion
     dispatch(getAllUserDataFromBackend());
   } catch (error) {
     console.error("Error deleting user:", error.response?.data?.message);
   }
 };
+
 
 // Logout handler
 export const Logouthandleraction = () => (dispatch) => {

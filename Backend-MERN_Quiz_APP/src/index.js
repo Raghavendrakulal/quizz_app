@@ -40,6 +40,10 @@ app.use("/userResult", userResult);
 const quizResults = require("./controller/quizResults.controller.js");
 app.use("/quiz", quizResults);
 
+// Promote User to Admin Route
+const userManagement = require("./controller/userData.controller.js");
+app.use("/admin", userManagement);
+
 // Function to create the initial admin
 const createInitialAdmin = async () => {
   try {
