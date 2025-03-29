@@ -152,3 +152,22 @@ router.put("/update-quiz/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+
+// Get quiz results by user ID
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const results = await Result.find({ userId: req.params.userId });
+    console.log("Fetched Results:", results);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No quiz results found for this user." });
+    }
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching quiz results:", error);
+    res.status(500).json({ message: "Error fetching quiz results", error });
+  }
+});
