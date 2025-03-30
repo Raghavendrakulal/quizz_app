@@ -219,16 +219,17 @@ router.patch("/:id/promote", async (req, res) => {
 });
 
 
-// Change Password Route
-exports.changePassword = async (req, res) => {
+// -------- Change Password Route --------
+router.post("/change-password", async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized. No token provided." });
     }
 
+    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
 
@@ -236,19 +237,22 @@ exports.changePassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Compare old password with the current password
     const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Old password is incorrect" });
     }
 
+    // Hash and update the new password
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedNewPassword;
     await user.save();
 
     res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
+    console.error("Error changing password:", error.message);
     res.status(500).json({ message: "Error changing password", error: error.message });
   }
-};
+});
 
 module.exports = router
