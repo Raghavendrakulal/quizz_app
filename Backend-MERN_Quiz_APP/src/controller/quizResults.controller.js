@@ -132,12 +132,18 @@ router.post("/save-results", async (req, res) => {
 
 
 // Update an existing quiz by ID
+// Update an existing quiz by ID
 router.put("/update-quiz/:id", async (req, res) => {
   try {
     const quizId = req.params.id;
     const updatedQuiz = req.body;
 
-    // Find the quiz by ID and update it
+    // Validate timer value (ensure it's positive or null)
+    if (updatedQuiz.timer !== null && updatedQuiz.timer < 0) {
+      return res.status(400).json({ message: "Invalid timer value" });
+    }
+
+    // Find and update the quiz
     const quiz = await Quiz.findByIdAndUpdate(quizId, updatedQuiz, { new: true });
 
     if (!quiz) {
@@ -150,6 +156,7 @@ router.put("/update-quiz/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating quiz", error });
   }
 });
+
 
 module.exports = router;
 

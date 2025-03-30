@@ -174,6 +174,18 @@ export const EditQuiz = () => {
               className="p-2 border rounded w-full"
             />
           </div>
+            {/* Quiz Timer */}
+    <div className="mb-4">
+      <label className="block mb-2 font-bold">Quiz Timer (in minutes):</label>
+      <input
+        type="number"
+        name="timer"
+        value={updatedQuiz?.timer || 0}
+        onChange={handleQuizChange}
+        className="p-2 border rounded w-full"
+        min="1"
+      />
+    </div>
           <div className="mb-4">
             <label className="block mb-2 font-bold">Difficulty:</label>
             <select
