@@ -136,7 +136,7 @@ const AdminAddQuizPage = () => {
 
         {/* Timer */}
         <div className="mb-4">
-          <label className="block font-medium mb-1">Timer (seconds)</label>
+          <label className="block font-medium mb-1">Timer (Minutes)</label>
           <input
             type="number"
             name="timer"
