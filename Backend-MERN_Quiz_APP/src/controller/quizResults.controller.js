@@ -14,21 +14,7 @@ router.get("/categories", async (req, res) => {
   }
 });
 
-// Get leaderboard data
-// router.get("/leaderboard", async (req, res) => {
-//   try {
-//     const { category } = req.query;
-//     console.log("Fetching leaderboard data for category:", category); // Debugging
-//     const filter = category ? { category } : {};
-//     const results = await Result.find(filter).sort({ score: -1 });
-//     console.log("Fetched leaderboard data:", results); // Debugging
-//     res.json(results);
-//   } catch (error) {
-//     console.error("Error fetching leaderboard data:", error); // Debugging
-//     console.error("Error details:", error.message); // Detailed error logging
-//     res.status(500).json({ message: "Error fetching leaderboard data", error });
-//   }
-// });
+
 router.get("/leaderboard", async (req, res) => {
   try {
     const { category } = req.query;
@@ -77,18 +63,6 @@ router.get("/:id", async (req, res) => {
 });
 
 // Save quiz results
-// router.post("/save-results", async (req, res) => {
-//   try {
-//     const { user, category, score } = req.body;
-//     console.log("Received data from client:", { user, category, score });
-//     const result = new Result({ user, category, score });
-//     await result.save();
-//     res.status(201).send("Results saved successfully");
-//   } catch (error) {
-//     console.error("Error saving results:", error);
-//     res.status(500).send("Error saving results");
-//   }
-// });
 
 router.post("/save-results", async (req, res) => {
   try {
